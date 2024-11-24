@@ -3,22 +3,13 @@ public class App {
         
         try {
             // Parse the file
-            String filePath = "src/tests/Test1.java";
+            String filePath = "tests/TestComplex.java";
             var compilationUnit = JavaFileParser.parseFile(filePath);
-
-            // JavaFileParser.printAstTree(compilationUnit, "");
-            // Print method declarations
-            System.out.println("Extracting method declarations...");
-            // JavaFileParser.printMethodDeclarations(compilationUnit);
-
-            // Print method calls
-            // System.out.println("Extracting method calls...");
-            // JavaFileParser.printMethodCalls(compilationUnit);
-
+            
+            //JavaFileParser.printAstTree(compilationUnit, filePath);
             CallGraph callGraph = new CallGraph();
             callGraph.generateCallGraph(compilationUnit);
 
-            // Print the call graph
             callGraph.printCallGraph();
 
         } catch (Exception e) {

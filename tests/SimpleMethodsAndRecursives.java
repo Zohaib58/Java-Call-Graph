@@ -1,9 +1,10 @@
 package tests;
 
-public class Test1 {
+public class SimpleMethodsAndRecursives {
+
     public void a() {
+        a(); // Recursive call
         b();
-        c();
     }
 
     public void b() {
@@ -14,3 +15,4 @@ public class Test1 {
         System.out.println("Hello");
     }
 }
+
