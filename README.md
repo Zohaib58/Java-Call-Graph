@@ -1,3 +1,11 @@
+## How to Run from \Fj Calls>
+Compile: javac -cp lib\javaparser-core-3.26.2.jar -d bin src\*.java
+
+Run: java -cp "lib\javaparser-core-3.26.2.jar;bin" Main
+
+Provide the file path where your source code resides else TestComplex.java under tests folder would be used as
+input
+
 ## Getting Started
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
