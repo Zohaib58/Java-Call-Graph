@@ -13,7 +13,7 @@ public class TestComplex {
                     c();
                 } 
             }
-        } else if (x == 0) {
+        } else if (x > 0) {
 
             if (y == 0) {
                 b();

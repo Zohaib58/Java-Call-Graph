@@ -19,6 +19,7 @@ public class Main {
 
             // Parse the file
             var compilationUnit = JavaFileParser.parseFile(filePath);
+            //JavaFileParser.printAstTree(compilationUnit, "");
 
             // Generate and print the call graph
             CallGraph callGraph = new CallGraph();
