@@ -66,7 +66,12 @@ public class CallGraph {
             });
         
             // Merge 'then' paths into current paths
+
+            //currentPaths.clear();               //Check whetehr error gets resovled or not
             currentPaths.addAll(thenPaths);    
+
+            System.out.println("After If-Else Handling: " + currentPaths);
+
             return;
         }
         
