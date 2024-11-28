@@ -78,15 +78,24 @@ public class CallGraph {
         // Handle SwitchStmt
         else if (node instanceof SwitchStmt) {
             SwitchStmt switchStmt = (SwitchStmt) node;
-
+        
+            ArrayList<String> mergedPaths = new ArrayList<>();
+            
             switchStmt.getEntries().forEach(entry -> {
                 ArrayList<String> casePaths = new ArrayList<>(currentPaths);
+        
                 entry.getStatements().forEach(statement -> traverseMethodBody(statement, casePaths));
-                currentPaths.addAll(casePaths);
+        
+                // Add this case's paths to the merged result
+                mergedPaths.addAll(casePaths);
             });
+        
+            currentPaths.clear();
+            currentPaths.addAll(mergedPaths);
+        
             return;
         }
-
+        
         // Recursively process all child nodes
         node.getChildNodes().forEach(child -> traverseMethodBody(child, currentPaths));
         /*
