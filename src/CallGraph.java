@@ -132,92 +132,85 @@ public class CallGraph {
             callGraph.put(key, updatedValues);
         }
     }
-    
+        
+    private Map<String, List<String>> memo = new HashMap<>(); // Cache for memoization
 
-    
-
-     public List<String> generateSequencePaths() {
+    public List<String> generateSequencePaths() {
         String startKey = "";
-    
+
         // Determine the start key
         if (callGraph.containsKey("main")) {
             startKey = "main";
         } else {
             startKey = callGraph.keySet().iterator().next();
         }
-    
-        // Set to track visited nodes (if needed)
-        //Set<String> isVisited = new HashSet<>();
-        //isVisited.add(startKey);
-    
+
         List<String> allPaths = new ArrayList<>();
-    
-        // Process the startKey's sequence paths
+
+        
         for (String value : callGraph.get(startKey)) {
             String[] nodes = value.split(" -> ");
-    
+
             for (int i = 0; i < nodes.length; i++) {
-                // Recursively get sequence paths for each node
-                
+                // get sequence paths for each node
                 List<String> nodePaths = getSequencePaths(nodes[i]);
 
-                if (nodePaths.size() > 0) {
+                if (!nodePaths.isEmpty()) {
                     nodes[i] = nodes[i] + " -> " + String.join(", ", nodePaths);
-
                 }
-                
-                
             }
             allPaths.add(String.join(" -> ", nodes));
-          
         }
-    
-        return allPaths; 
+
+        return allPaths;
     }
-    
+
     private List<String> getSequencePaths(String node) {
-        List<String> result = new ArrayList<>(); // To store complete sequence paths
-    
-        // Base Case: If the node is not in the graph, return an empty list
+        // Check if the result for this node is already memoized
+        if (memo.containsKey(node)) {
+            return memo.get(node);
+        }
+
+        List<String> result = new ArrayList<>(); 
+
+        // Base Case
         if (!callGraph.containsKey(node)) {
             return result;
         }
-    
-        // Get the paths for the current node
+
         List<String> nodeSequencePaths = callGraph.get(node);
-    
+
         for (String nodeSequencePath : nodeSequencePaths) {
             String[] nodes = nodeSequencePath.split(" -> ");
-    
+
             List<String> currentPaths = new ArrayList<>();
             currentPaths.add(nodeSequencePath);
-    
+
             for (String internalNode : nodes) {
-                // Recursive call to get deeper paths
+                // Recursive call to get deeper path
                 List<String> deeperPaths = getSequencePaths(internalNode);
-    
+
                 // Concatenate current paths with deeper paths
                 List<String> newPaths = new ArrayList<>();
                 for (String currentPath : currentPaths) {
                     if (deeperPaths.isEmpty()) {
-                        // If no deeper paths, keep the current path as is
-                        newPaths.add(currentPath);
+                        newPaths.add(currentPath); // If no deeper paths, keep the current path
                     } else {
                         for (String deeperPath : deeperPaths) {
                             newPaths.add(currentPath + " -> " + deeperPath);
                         }
                     }
                 }
-                currentPaths = newPaths; 
-                
+                currentPaths = newPaths;
             }
-    
+
             result.addAll(currentPaths);
         }
-    
-        return result; // Return the aggregated results
+
+        memo.put(node, result);
+
+        return result;
     }
-    
 
     /*
      public ArrayList<String> getPaths()
