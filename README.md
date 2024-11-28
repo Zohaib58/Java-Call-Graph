@@ -1,9 +1,10 @@
 ## How to Run Tool from \Fj Calls>
-Compile: javac -cp lib\javaparser-core-3.26.2.jar -d bin src\*.java
-Run: java -cp "lib\javaparser-core-3.26.2.jar;bin" Main
+Compile: javac -cp lib\javaparser-core-3.26.2.jar -d bin src\*.java <br />
+Run: java -cp "lib\javaparser-core-3.26.2.jar;bin" Main <br />
+
 
 Provide the file path where your source code resides else TestComplex.java 
-under tests folder would be used asinput
+under tests folder would be used as input<br />
 
 ## Example
 ![image](https://github.com/user-attachments/assets/1feac978-bb0f-4421-8088-b7a30a7e1734)
