@@ -6,7 +6,8 @@ Provide the file path where your source code resides else TestComplex.java
 under tests folder would be used asinput
 
 ## Example
-![image](https://github.com/user-attachments/assets/97008466-886a-44f6-9ced-0d929fe54851)
+![image](https://github.com/user-attachments/assets/1feac978-bb0f-4421-8088-b7a30a7e1734)
+
 
 ## Getting Started
 
