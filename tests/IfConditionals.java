@@ -1,37 +1,32 @@
 package tests;
 
 public class IfConditionals {
-
-    private int x = 1; // Example value: x can be 1, 0, or -1 for testing conditionals
-    private int y = 2; // Example value: y can be 1, 2, or something else for switch cases
-
-    
+    private int x = 1; 
+    private int y = 2; 
     public void a() {
-        a(); // Simple recursive call
+        a(); 
         if (x > 0) {
-            b(); // Conditional call when x > 0
+            b(); 
         } else if (x == 0) {
-            a(); // Recursive call in if when x == 0
+            a(); 
         } else {
-            c(); // Conditional call when x < 0
+            c(); 
         }
 
         switch (y) {
             case 1:
-                b(); // Conditional call in switch case 1
+                b(); 
                 break;
             case 2:
-                c(); // Conditional call in switch case 2
+                c(); 
                 break;
             default:
-                a(); // Recursive call in default case
+                a(); 
         }
     }
-
     public void b() {
-        c(); // Simple call
+        c(); 
     }
-
     public void c() {
         System.out.println("Hello"); // External library call
     }

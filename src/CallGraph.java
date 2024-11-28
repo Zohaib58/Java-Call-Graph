@@ -30,7 +30,12 @@ public class CallGraph {
 
             method.getBody().ifPresent(body -> traverseMethodBody(body, currentPaths));
 
-            System.out.println(currentPaths);
+            System.out.println("----------- " + methodName + " -----------");
+            
+            for (String path: currentPaths) {
+                System.out.println(path);
+            }
+            System.out.println();
             
         });
     }
