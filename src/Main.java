@@ -1,4 +1,6 @@
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -24,10 +26,12 @@ public class Main {
             // Generate and print the call graph
             CallGraph callGraph = new CallGraph();
             callGraph.generateCallGraph(compilationUnit);
-            //callGraph.printCallGraph();
-
-            System.out.println(callGraph.getCallGraph().toString());
-
+            //callGraph.markRecursivePaths();
+            List<String> sequencePaths =  callGraph.generateSequencePaths();
+            
+            for (String sequencePath : sequencePaths) {
+                System.out.println(sequencePath);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

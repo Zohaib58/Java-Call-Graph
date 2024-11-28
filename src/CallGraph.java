@@ -8,7 +8,7 @@ import java.util.*;
 
 public class CallGraph {
 
-    private final Map<String, List<String>> callGraph = new LinkedHashMap<>();
+    private final LinkedHashMap<String, List<String>> callGraph = new LinkedHashMap<>();
     
     //Set<String> nodes = new HashSet<>();
     //Set<String> uniquePaths = new LinkedHashSet<>();
@@ -38,20 +38,10 @@ public class CallGraph {
                 }
                 callGraph.get(methodName).add(currentPaths.get(i));    
             }
-
-            System.out.println("----------- " + "Program Call Sequence" + " -----------");
-
-            
-            System.out.println("----------- " + methodName + " -----------");
-            
-            for (String path: currentPaths) {
-                System.out.println(path);
-            }
-            System.out.println();
             
         });
     
-        
+        this.markRecursivePaths();
     
     }
     private void traverseMethodBody(Node node, ArrayList<String> currentPaths) {
@@ -121,21 +111,121 @@ public class CallGraph {
         
     }
 
-    /*
-        public void printCallGraph() {
-        System.out.println("Call Graph:");
-        callGraph.forEach((method, calls) -> {
-            System.out.println("Method: " + method);
-            calls.forEach(call -> System.out.println("    " + call));
-        });
-    } 
-     */
+
+    private void markRecursivePaths() {
+        for (String key : callGraph.keySet()) {
+            List<String> updatedValues = new ArrayList<>();
+    
+            for (String value : callGraph.get(key)) {
+                String[] elements = value.split(" -> ");
+    
+                for (int i = 0; i < elements.length; i++) {
+                    if (elements[i].equals(key)) {
+                        elements[i] = key + "(r)";
+                    }
+                }
+    
+                String updatedValue = String.join(" -> ", elements);
+                updatedValues.add(updatedValue);
+            }
+    
+            callGraph.put(key, updatedValues);
+        }
+    }
     
 
-    public ArrayList<String> getPaths()
+    
+
+     public List<String> generateSequencePaths() {
+        String startKey = "";
+    
+        // Determine the start key
+        if (callGraph.containsKey("main")) {
+            startKey = "main";
+        } else {
+            startKey = callGraph.keySet().iterator().next();
+        }
+    
+        // Set to track visited nodes (if needed)
+        //Set<String> isVisited = new HashSet<>();
+        //isVisited.add(startKey);
+    
+        List<String> allPaths = new ArrayList<>();
+    
+        // Process the startKey's sequence paths
+        for (String value : callGraph.get(startKey)) {
+            String[] nodes = value.split(" -> ");
+    
+            for (int i = 0; i < nodes.length; i++) {
+                // Recursively get sequence paths for each node
+                
+                List<String> nodePaths = getSequencePaths(nodes[i]);
+
+                if (nodePaths.size() > 0) {
+                    nodes[i] = nodes[i] + " -> " + String.join(", ", nodePaths);
+
+                }
+                
+                
+            }
+            allPaths.add(String.join(" -> ", nodes));
+          
+        }
+    
+        return allPaths; 
+    }
+    
+    private List<String> getSequencePaths(String node) {
+        List<String> result = new ArrayList<>(); // To store complete sequence paths
+    
+        // Base Case: If the node is not in the graph, return an empty list
+        if (!callGraph.containsKey(node)) {
+            return result;
+        }
+    
+        // Get the paths for the current node
+        List<String> nodeSequencePaths = callGraph.get(node);
+    
+        for (String nodeSequencePath : nodeSequencePaths) {
+            String[] nodes = nodeSequencePath.split(" -> ");
+    
+            List<String> currentPaths = new ArrayList<>();
+            currentPaths.add(nodeSequencePath);
+    
+            for (String internalNode : nodes) {
+                // Recursive call to get deeper paths
+                List<String> deeperPaths = getSequencePaths(internalNode);
+    
+                // Concatenate current paths with deeper paths
+                List<String> newPaths = new ArrayList<>();
+                for (String currentPath : currentPaths) {
+                    if (deeperPaths.isEmpty()) {
+                        // If no deeper paths, keep the current path as is
+                        newPaths.add(currentPath);
+                    } else {
+                        for (String deeperPath : deeperPaths) {
+                            newPaths.add(currentPath + " -> " + deeperPath);
+                        }
+                    }
+                }
+                currentPaths = newPaths; 
+                
+            }
+    
+            result.addAll(currentPaths);
+        }
+    
+        return result; // Return the aggregated results
+    }
+    
+
+    /*
+     public ArrayList<String> getPaths()
     {
         return paths;
     }
+     */
+    
     public Map<String, List<String>> getCallGraph() {
         return callGraph;
     }

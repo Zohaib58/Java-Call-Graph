@@ -6,7 +6,7 @@ public class TestNestedCalls {
     private int y = 5;
     private int z = 2;
 
-    public void mainMethod() {
+    public void main() {
         if (x > 0) {
             if (y < 5) {
                 b(); // Call inside nested if
