@@ -60,17 +60,17 @@ public class CallGraph {
         
             // Handle 'else' branch if it exists
             ifStmt.getElseStmt().ifPresent(elseStmt -> {
-                ArrayList<String> elsePaths = new ArrayList<>(currentPaths); // Create a copy for the 'else' branch
+                ArrayList<String> elsePaths = new ArrayList<>(currentPaths); 
                 traverseMethodBody(elseStmt, elsePaths);
+
+                currentPaths.clear(); 
+
                 currentPaths.addAll(elsePaths); // Merge 'else' paths into current paths
             });
         
-            // Merge 'then' paths into current paths
-
-            //currentPaths.clear();               //Check whetehr error gets resovled or not
             currentPaths.addAll(thenPaths);    
 
-            System.out.println("After If-Else Handling: " + currentPaths);
+            //System.out.println("After If-Else Handling: " + currentPaths);
 
             return;
         }
