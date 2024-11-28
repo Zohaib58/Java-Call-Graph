@@ -8,20 +8,20 @@ public class IfConditionals {
         if (x > 0) {
             b(); 
         } else if (x == 0) {
-            a(); 
-        } else {
             c(); 
+        } else {
+            d(); 
         }
 
         switch (y) {
             case 1:
-                b(); 
+                e(); 
                 break;
             case 2:
-                c(); 
+                f(); 
                 break;
             default:
-                a(); 
+                g(); 
         }
     }
     public void b() {

@@ -24,7 +24,9 @@ public class Main {
             // Generate and print the call graph
             CallGraph callGraph = new CallGraph();
             callGraph.generateCallGraph(compilationUnit);
-            callGraph.printCallGraph();
+            //callGraph.printCallGraph();
+
+            System.out.println(callGraph.getCallGraph().toString());
 
         } catch (Exception e) {
             e.printStackTrace();

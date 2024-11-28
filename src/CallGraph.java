@@ -10,12 +10,13 @@ public class CallGraph {
 
     private final Map<String, List<String>> callGraph = new LinkedHashMap<>();
     
-    Set<String> nodes = new HashSet<>();
-    Set<String> uniquePaths = new LinkedHashSet<>();
+    //Set<String> nodes = new HashSet<>();
+    //Set<String> uniquePaths = new LinkedHashSet<>();
 
     //private final Stack<String> callStack = new Stack<>();
     
-    Stack<String> pathsStack = new Stack<>();
+    //Stack<String> pathsStack = new Stack<>();
+    ArrayList<String> paths = new ArrayList<>();
 
     public void generateCallGraph(CompilationUnit cu) {
         // Find all method declarations in the compilation unit
@@ -24,12 +25,23 @@ public class CallGraph {
             
             
             String methodName = method.getNameAsString();
-            nodes.add(methodName);
+            //nodes.add(methodName);
 
             ArrayList<String> currentPaths = new ArrayList<>();
 
             method.getBody().ifPresent(body -> traverseMethodBody(body, currentPaths));
 
+            
+            for (int i = 0; i < currentPaths.size(); i++) {
+                if (!callGraph.containsKey(methodName)) {
+                    callGraph.put(methodName, new ArrayList<>());
+                }
+                callGraph.get(methodName).add(currentPaths.get(i));    
+            }
+
+            System.out.println("----------- " + "Program Call Sequence" + " -----------");
+
+            
             System.out.println("----------- " + methodName + " -----------");
             
             for (String path: currentPaths) {
@@ -38,6 +50,9 @@ public class CallGraph {
             System.out.println();
             
         });
+    
+        
+    
     }
     private void traverseMethodBody(Node node, ArrayList<String> currentPaths) {
         if (node == null) return;
@@ -106,14 +121,21 @@ public class CallGraph {
         
     }
 
-    public void printCallGraph() {
+    /*
+        public void printCallGraph() {
         System.out.println("Call Graph:");
         callGraph.forEach((method, calls) -> {
             System.out.println("Method: " + method);
             calls.forEach(call -> System.out.println("    " + call));
         });
-    }
+    } 
+     */
+    
 
+    public ArrayList<String> getPaths()
+    {
+        return paths;
+    }
     public Map<String, List<String>> getCallGraph() {
         return callGraph;
     }
